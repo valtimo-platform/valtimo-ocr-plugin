@@ -75,7 +75,7 @@ import {TeamsModule} from "@valtimo/teams";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {environment} from "../environments/environment";
 
-import {SamplePluginModule, samplePluginSpecification,} from "@valtimo-plugins/valtimo-ocr";
+import {ValtimoOcrPluginModule, valtimoOcrPluginSpecification,} from "@valtimo-plugins/valtimo-ocr";
 
 export function tabsFactory() {
   return new Map<string, object>([
@@ -124,7 +124,7 @@ export function tabsFactory() {
     ProcessModule,
     ReactiveFormsModule,
     ResourceModule,
-    SamplePluginModule,
+    ValtimoOcrPluginModule,
     SecurityModule,
     SseModule,
     SwaggerModule,
@@ -145,7 +145,7 @@ export function tabsFactory() {
     {
       provide: PLUGINS_TOKEN,
       useValue: [
-        samplePluginSpecification,
+        valtimoOcrPluginSpecification,
       ],
     },
   ],
