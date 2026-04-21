@@ -15,6 +15,10 @@
  *
  */
 
+val freemarkerVersion: String by project
+val kotlinLoggingVersion: String by project
+val mockitoKotlinVersion: String by project
+
 dockerCompose {
     setProjectName("valtimo-ocr")
     isRequiredBy(project.tasks.integrationTesting)
@@ -29,13 +33,13 @@ dependencies {
     implementation("com.ritense.valtimo:plugin-valtimo")
     implementation("com.ritense.valtimo:temporary-resource-storage")
     implementation("com.ritense.valtimo:value-resolver")
-    implementation("com.ritense.valtimo:document")
-    implementation("org.freemarker:freemarker:2.3.33")
+    implementation("com.ritense.valtimo:case")
+    implementation("org.freemarker:freemarker:$freemarkerVersion")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("io.github.oshai:kotlin-logging-jvm:7.0.3")
+    implementation("io.github.oshai:kotlin-logging-jvm:$kotlinLoggingVersion")
 
     // Testing
-    testImplementation("com.ritense.valtimo:document")
+    testImplementation("com.ritense.valtimo:case")
     testImplementation("com.ritense.valtimo:local-resource")
     testImplementation("com.ritense.valtimo:process-document")
     testImplementation("com.ritense.valtimo:test-utils-common")
@@ -45,7 +49,7 @@ dependencies {
 
     testImplementation("org.mockito:mockito-core")
     testImplementation("org.hamcrest:hamcrest-library")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
 
     testImplementation("org.postgresql:postgresql")
 
