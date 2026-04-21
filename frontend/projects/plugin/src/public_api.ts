@@ -15,11 +15,11 @@
  */
 
 /*
- * Public API Surface of sample-plugin
+ * Public API Surface of valtimo-ocr
  */
 
-export * from "./lib/plugins/sample-plugin/models";
-export * from "./lib/plugins/sample-plugin/sample-plugin-module";
-export * from "./lib/plugins/sample-plugin/sample-plugin.specification";
-export * from "./lib/plugins/sample-plugin/components/sample-plugin-configuration/sample-plugin-configuration.component";
-export * from "./lib/plugins/sample-plugin/components/sample-action-configuration/sample-action-configuration.component";
+export * from "./lib/plugins/valtimo-ocr/models";
+export * from "./lib/plugins/valtimo-ocr/valtimo-ocr-module";
+export * from "./lib/plugins/valtimo-ocr/valtimo-ocr.specification";
+export * from "./lib/plugins/valtimo-ocr/components/valtimo-ocr-configuration/valtimo-ocr-configuration.component";
+export * from "./lib/plugins/valtimo-ocr/components/sample-action-configuration/sample-action-configuration.component";
