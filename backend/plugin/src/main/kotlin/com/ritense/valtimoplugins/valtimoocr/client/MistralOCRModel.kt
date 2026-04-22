@@ -19,7 +19,12 @@ package com.ritense.valtimoplugins.valtimoocr.client
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ritense.valtimo.contract.annotation.SkipComponentScan
-import com.ritense.valtimoplugins.valtimoocr.client.mistral.*
+import com.ritense.valtimoplugins.valtimoocr.client.mistral.MistralDocument
+import com.ritense.valtimoplugins.valtimoocr.client.mistral.MistralFile
+import com.ritense.valtimoplugins.valtimoocr.client.mistral.MistralFileRequest
+import com.ritense.valtimoplugins.valtimoocr.client.mistral.MistralImage
+import com.ritense.valtimoplugins.valtimoocr.client.mistral.MistralOCRPage
+import com.ritense.valtimoplugins.valtimoocr.client.mistral.MistralOCRResponse
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
@@ -36,66 +41,70 @@ class MistralOCRModel(
         fileBase64: String,
         documentName: String?,
         pages: Number?,
-        includeImageBase64: Boolean
+        includeImageBase64: Boolean,
     ): List<MistralOCRPage> {
         val pageArray: List<Int> = (0 until (pages ?: 1).toInt()).toList()
 
         val isPdf = fileBase64.startsWith("data:application/pdf;")
-        val file: MistralFile = if (isPdf) {
-            MistralDocument(
-                document_url = fileBase64,
-                document_name = documentName,
-                type = "document_url"
-            )
-        } else {
-            MistralImage(
-                image_url = fileBase64,
-                type = "image_url"
-            )
-        }
+        val file: MistralFile =
+            if (isPdf) {
+                MistralDocument(
+                    document_url = fileBase64,
+                    document_name = documentName,
+                    type = "document_url",
+                )
+            } else {
+                MistralImage(
+                    image_url = fileBase64,
+                    type = "image_url",
+                )
+            }
 
-        val result = post(
-            "v1/ocr",
-            MistralFileRequest(
-                model = "mistral-ocr-latest",
-                document = file,
-                pages = pageArray,
-                include_image_base64 = includeImageBase64,
+        val result =
+            post(
+                "v1/ocr",
+                MistralFileRequest(
+                    model = "mistral-ocr-latest",
+                    document = file,
+                    pages = pageArray,
+                    include_image_base64 = includeImageBase64,
+                ),
             )
-        )
 
         return result
     }
 
-    private fun post(path: String, mistralFileRequest: MistralFileRequest): List<MistralOCRPage> {
+    private fun post(
+        path: String,
+        mistralFileRequest: MistralFileRequest,
+    ): List<MistralOCRPage> {
         try {
-            val response = restClientBuilder
-                .clone()
-                .build()
-                .post()
-                .uri {
-                    it.scheme(baseUri!!.scheme)
-                        .host(baseUri!!.host)
-                        .path(baseUri!!.path)
-                        .path(path)
-                        .port(baseUri!!.port)
-                        .build()
-                }
-                .headers {
-                    it.contentType = org.springframework.http.MediaType.APPLICATION_JSON
-                    it.setBearerAuth(token!!)
-                }
-                .accept(org.springframework.http.MediaType.APPLICATION_JSON)
-                .body(ObjectMapper().writeValueAsString(mistralFileRequest))
-                .retrieve()
-                .body<MistralOCRResponse>()!!
+            val response =
+                restClientBuilder
+                    .clone()
+                    .build()
+                    .post()
+                    .uri {
+                        it
+                            .scheme(baseUri!!.scheme)
+                            .host(baseUri!!.host)
+                            .path(baseUri!!.path)
+                            .path(path)
+                            .port(baseUri!!.port)
+                            .build()
+                    }.headers {
+                        it.contentType = org.springframework.http.MediaType.APPLICATION_JSON
+                        it.setBearerAuth(token!!)
+                    }.accept(org.springframework.http.MediaType.APPLICATION_JSON)
+                    .body(ObjectMapper().writeValueAsString(mistralFileRequest))
+                    .retrieve()
+                    .body<MistralOCRResponse>()!!
 
             if (response.pages.isEmpty()) {
                 throw AiAgentException("Empty response")
             }
 
             return response.pages
-
         } catch (ex: Exception) {
             ex.printStackTrace()
             throw AiAgentException("Fout tijdens OCR-verzoek: ${ex.message}")

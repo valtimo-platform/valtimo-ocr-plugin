@@ -19,22 +19,22 @@ package com.ritense.valtimoplugins.valtimoocr.autoconfiguration
 
 import com.ritense.plugin.service.PluginService
 import com.ritense.valtimoplugins.valtimoocr.client.MistralOCRModel
+import com.ritense.valtimoplugins.valtimoocr.plugin.ValtimoOcrPluginFactory
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.web.client.RestClient
-import com.ritense.valtimoplugins.valtimoocr.plugin.ValtimoOcrPluginFactory
 
 @AutoConfiguration
 class ValtimoOcrAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(MistralOCRModel::class)
-    fun mistralOCRModel(
-        restClientBuilder: RestClient.Builder
-    ) = MistralOCRModel(
-        restClientBuilder, null, null
-    )
-
+    fun mistralOCRModel(restClientBuilder: RestClient.Builder) =
+        MistralOCRModel(
+            restClientBuilder,
+            null,
+            null,
+        )
 
     @Bean
     @ConditionalOnMissingBean(ValtimoOcrPluginFactory::class)
@@ -43,7 +43,6 @@ class ValtimoOcrAutoConfiguration {
         mistralOCRModel: MistralOCRModel,
     ) = ValtimoOcrPluginFactory(
         pluginService,
-        mistralOCRModel
+        mistralOCRModel,
     )
-
 }

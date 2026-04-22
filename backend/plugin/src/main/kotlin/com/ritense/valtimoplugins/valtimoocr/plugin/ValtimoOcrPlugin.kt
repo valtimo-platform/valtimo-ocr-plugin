@@ -36,7 +36,6 @@ import java.net.URI
 open class ValtimoOcrPlugin(
     private val mistralOCRModel: MistralOCRModel,
 ) {
-
     @PluginProperty(key = "url", secret = false)
     lateinit var url: URI
 
@@ -47,43 +46,53 @@ open class ValtimoOcrPlugin(
         key = "file-to-text",
         title = "File to Text",
         description = "Converts a image or pdf document to text using Mistral OCR",
-        activityTypes = [ActivityTypeWithEventName.SERVICE_TASK_START]
+        activityTypes = [ActivityTypeWithEventName.SERVICE_TASK_START],
     )
     open fun fileToText(
         execution: DelegateExecution,
         @PluginActionProperty filePV: String,
         @PluginActionProperty pages: Number?,
         @PluginActionProperty includeImageBase64: Boolean,
-        @PluginActionProperty resultPV: String
+        @PluginActionProperty resultPV: String,
     ) {
         mistralOCRModel.baseUri = url
         mistralOCRModel.token = token
 
-        val file = execution.getVariable(filePV) as? List<*>
-            ?: throw IllegalStateException("No file provided in the process variable $filePV to convert to text.")
+        val file =
+            execution.getVariable(filePV) as? List<*>
+                ?: throw IllegalStateException("No file provided in the process variable $filePV to convert to text.")
 
         val firstItem = file.firstOrNull().toString()
 
-        val base64Url = Regex("url=(.+?)(?=,\\s*size=)")
-            .find(firstItem)?.groupValues?.get(1)
-            ?: throw IllegalStateException("Base64 URL not found in: $firstItem")
+        val base64Url =
+            Regex("url=(.+?)(?=,\\s*size=)")
+                .find(firstItem)
+                ?.groupValues
+                ?.get(1)
+                ?: throw IllegalStateException("Base64 URL not found in: $firstItem")
 
-        val filename = Regex("name=(.+?)-[a-f0-9\\-]{36}\\.pdf")
-            .find(firstItem)?.groupValues?.get(1)?.plus(".pdf")
+        val filename =
+            Regex("name=(.+?)-[a-f0-9\\-]{36}\\.pdf")
+                .find(firstItem)
+                ?.groupValues
+                ?.get(1)
+                ?.plus(".pdf")
 
-        val mistralOCR: List<MistralOCRPage> = mistralOCRModel.mistralFiletoText(
-            fileBase64 = base64Url,
-            documentName = filename,
-            pages = pages,
-            includeImageBase64 = includeImageBase64
-        )
+        val mistralOCR: List<MistralOCRPage> =
+            mistralOCRModel.mistralFiletoText(
+                fileBase64 = base64Url,
+                documentName = filename,
+                pages = pages,
+                includeImageBase64 = includeImageBase64,
+            )
 
-        val resultObject = OCRResult(
-            documentName = filename,
-            pages = mistralOCR.size,
-            content = mistralOCR,
-            markdownCombined = mistralOCR.joinToString("\n") { it.markdown }
-        )
+        val resultObject =
+            OCRResult(
+                documentName = filename,
+                pages = mistralOCR.size,
+                content = mistralOCR,
+                markdownCombined = mistralOCR.joinToString("\n") { it.markdown },
+            )
 
         println("OCR Result: $resultObject")
         execution.setVariable(resultPV, resultObject)

@@ -27,10 +27,10 @@ import org.springframework.stereotype.Component
 @SkipComponentScan
 class ValtimoOcrPluginFactory(
     pluginService: PluginService,
-    val mistralOCRModel: MistralOCRModel
+    val mistralOCRModel: MistralOCRModel,
 ) : PluginFactory<ValtimoOcrPlugin>(pluginService) {
-
-    override fun create() = ValtimoOcrPlugin(
-        mistralOCRModel,
-    )
+    override fun create() =
+        ValtimoOcrPlugin(
+            mistralOCRModel,
+        )
 }
