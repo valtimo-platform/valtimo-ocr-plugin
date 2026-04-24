@@ -1,0 +1,7 @@
+[
+    {
+        "processDefinitionKey": "ocr-process",
+        "canInitializeDocument": true,
+        "startableByUser": true
+    }
+]

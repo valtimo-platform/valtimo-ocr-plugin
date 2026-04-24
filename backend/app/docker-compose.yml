@@ -71,5 +71,51 @@ services:
         rabbitmq-server
       "
 
+  #ZGW
+
+  openzaak:
+    image: openzaak/open-zaak:1.20.0
+    container_name: plugin-docker-compose-openzaak
+    platform: linux/amd64
+    environment:
+      - DB_HOST=openzaak-database
+      - DB_POST=5433
+      - SECRET_KEY=veryRestrictedSecretKey
+      - DB_USER=openzaak
+      - DB_PASSWORD=openzaak
+      - DB_NAME=openzaak
+      - CACHE_DEFAULT=openzaak-redis:6379/0
+      - CACHE_AXES=openzaak-redis:6379/0
+      - DEBUG=true
+      - ALLOWED_HOSTS=localhost,host.docker.internal,172.17.0.1,openzaak
+      - OPENZAAK_SUPERUSER_USERNAME=admin
+      - OPENZAAK_SUPERUSER_EMAIL=admin@admin.org
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - SENDFILE_BACKEND=django_sendfile.backends.simple
+      - NOTIFICATIONS_DISABLED=true
+      - DISABLE_2FA=True
+    ports:
+      - "8001:8000"
+    depends_on:
+      - openzaak-database
+      - openzaak-redis
+
+  openzaak-database:
+    image: postgis/postgis:17-3.4
+    container_name: plugin-docker-compose-openzaak-database
+    platform: linux/amd64
+    environment:
+      - POSTGRES_USER=openzaak
+      - POSTGRES_PASSWORD=openzaak
+      - POSTGRES_DB=openzaak
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./imports/open-zaak:/docker-entrypoint-initdb.d
+
+  openzaak-redis:
+    image: redis:7.4.3
+    container_name: plugin-docker-compose-openzaak-redis
+
 volumes:
   plugin-database-data:

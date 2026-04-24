@@ -1,0 +1,53 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "label": "Instructions",
+            "content": "Start a new OCR case. Upload a document to be processed by OCR.",
+            "tableView": false,
+            "refreshOnChange": false
+        },
+        {
+            "key": "pv.resourceId",
+            "type": "documenten-api-file",
+            "input": true,
+            "label": "Upload document for OCR",
+            "tableView": false,
+            "customOptions": {
+                "title": "",
+                "author": "",
+                "camera": false,
+                "status": "definitief",
+                "filename": "",
+                "language": "nld",
+                "subtitle": "",
+                "hideTitle": false,
+                "description": "OCR Document",
+                "maxFileSize": 1,
+                "documentType": "test",
+                "disableAuthor": false,
+                "disableStatus": false,
+                "documentTitle": "OCR Document",
+                "disableFilename": false,
+                "disableLanguage": false,
+                "hideMaxFileSize": false,
+                "disableDescription": false,
+                "disableDocumentType": false,
+                "confidentialityLevel": "zaakvertrouwelijk",
+                "disableDocumentTitle": false,
+                "disableConfidentialityLevel": false
+            }
+        },
+        {
+            "key": "submit",
+            "type": "button",
+            "input": true,
+            "label": "Start",
+            "tableView": false,
+            "disableOnInvalid": true
+        }
+    ]
+}

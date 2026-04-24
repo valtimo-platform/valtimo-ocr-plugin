@@ -20,6 +20,10 @@ import {AnalyseModule} from "@valtimo/analyse";
 import {AppComponent} from "./app.component";
 import {AppRoutingModule} from "./app-routing.module";
 import {
+  CatalogiApiPluginModule, catalogiApiPluginSpecification,
+  DocumentenApiPluginModule, documentenApiPluginSpecification,
+  OpenZaakPluginModule, openZaakPluginSpecification,
+  ZakenApiPluginModule, zakenApiPluginSpecification,
   PLUGINS_TOKEN,
 } from "@valtimo/plugin";
 import {BootstrapModule} from "@valtimo/bootstrap";
@@ -73,6 +77,7 @@ import {SwaggerModule} from "@valtimo/swagger";
 import {TaskModule} from "@valtimo/task";
 import {TeamsModule} from "@valtimo/teams";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {registerDocumentenApiFormioUploadComponent, ZgwModule} from '@valtimo/zgw';
 import {environment} from "../environments/environment";
 
 import {ValtimoOcrPluginModule, valtimoOcrPluginSpecification,} from "@valtimo-plugins/valtimo-ocr";
@@ -108,6 +113,9 @@ export function tabsFactory() {
     DashboardModule,
     DecisionModule,
     DocumentModule,
+    CatalogiApiPluginModule,
+    DocumentenApiPluginModule,
+    OpenZaakPluginModule,
     FormManagementModule,
     FormModule,
     FormsModule,
@@ -126,6 +134,8 @@ export function tabsFactory() {
     ResourceModule,
     ValtimoOcrPluginModule,
     SecurityModule,
+    ZakenApiPluginModule,
+    ZgwModule,
     SseModule,
     SwaggerModule,
     TaskModule,
@@ -145,7 +155,11 @@ export function tabsFactory() {
     {
       provide: PLUGINS_TOKEN,
       useValue: [
+        catalogiApiPluginSpecification,
+        documentenApiPluginSpecification,
+        openZaakPluginSpecification,
         valtimoOcrPluginSpecification,
+        zakenApiPluginSpecification,
       ],
     },
   ],
@@ -157,5 +171,6 @@ export class AppModule {
     registerFormioUploadComponent(injector);
     registerFormioFileSelectorComponent(injector);
     registerFormioValueResolverSelectorComponent(injector);
+    registerDocumentenApiFormioUploadComponent(injector);
   }
 }
