@@ -2,6 +2,9 @@
 
 Overzicht van wijzigingen per versie van de Valtimo OCR-plugin.
 
+## 1.0.3
+Valtimo bijgewerkt naar versie 13.41.0.
+
 ## 1.0.2
 De Mistral API-sleutel wordt niet meer naar de browserconsole geschreven terwijl een beheerder de plugin configureert. Dat gebeurde bij elke toetsaanslag.
 
