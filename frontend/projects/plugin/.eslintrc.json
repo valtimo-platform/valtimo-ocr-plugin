@@ -5,6 +5,7 @@
         {
             "files": ["*.ts"],
             "rules": {
+                "no-console": "error",
                 "@angular-eslint/component-selector": [
                     "warn",
                     {
