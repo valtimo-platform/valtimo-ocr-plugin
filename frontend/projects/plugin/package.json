@@ -1,6 +1,6 @@
 {
   "name": "@valtimo-plugins/valtimo-ocr",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "peerDependencies": {
     "@angular/common": "19.2.20",
     "@angular/core": "19.2.20"
@@ -11,6 +11,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "ng build @valtimo-plugins/valtimo-ocr",
-    "watch": "ng build @valtimo-plugins/valtimo-ocr --watch"
+    "watch": "ng build @valtimo-plugins/valtimo-ocr --watch",
+    "test": "ng test @valtimo-plugins/valtimo-ocr"
   }
 }
