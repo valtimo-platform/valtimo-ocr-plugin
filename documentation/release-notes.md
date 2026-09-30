@@ -2,6 +2,10 @@
 
 Overzicht van wijzigingen per versie van de Valtimo OCR-plugin.
 
+## 1.0.4
+
+Ondersteuning voor Valtimo 13.48.0.
+
 ## 1.0.3
 Valtimo bijgewerkt naar versie 13.41.0.
 
